@@ -1,6 +1,6 @@
 import Trophy from 'assets/trophy.svg';
 
-import React, { FC } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 
 import { DataGrid, GridColDef, GridSortDirection } from '@material-ui/data-grid';
 
@@ -13,7 +13,7 @@ const StyledAvatar = styled(Avatar)`
   margin-bottom: 1rem;
 `;
 
-const columns: GridColDef[] = [
+const companyColumns: GridColDef[] = [
   { field: 'company', headerName: 'Company', width: 200 },
   {
     field: 'score',
@@ -23,7 +23,17 @@ const columns: GridColDef[] = [
   },
 ];
 
-const rows = [
+const employeeColumns: GridColDef[] = [
+  { field: 'name', headerName: 'Name', width: 200 },
+  {
+    field: 'score',
+    headerName: 'Score',
+    type: 'number',
+    width: 150,
+  },
+];
+
+const companies = [
   {
     id: '0b20acab-9360-49b9-94ba-954f46742f7d',
     company: 'Futurize',
@@ -47,7 +57,7 @@ const rows = [
   {
     id: 'd3c7b6e1-bf51-44dd-9000-869f53d86f7e',
     company: 'Cubicide',
-    score: 749,
+    score: 795,
   },
   {
     id: 'ffd88af7-6c50-4384-b03b-74a22e97fdcf',
@@ -71,6 +81,49 @@ const rows = [
   },
 ];
 
+const employees = [
+  {
+    id: '09e4ba09-afb8-4369-a399-9c24fac027d2',
+    name: 'Orr',
+    score: 85,
+  },
+  {
+    id: '7a79ac55-da5c-4e6b-ae6c-9ef0c88f0290',
+    name: 'Washington',
+    score: 112,
+  },
+  {
+    id: '013c16e4-4d95-4fc3-ac32-2a7432d76335',
+    name: 'Dale',
+    score: 109,
+  },
+  {
+    id: '30a40a35-60fb-4f4c-92d5-0002bf2854bc',
+    name: 'Rosalie',
+    score: 77,
+  },
+  {
+    id: '31eddffb-b198-4dec-9f07-db2e65145cef',
+    name: 'Nora',
+    score: 61,
+  },
+  {
+    id: 'fbb75f2f-33a7-4070-a3cc-ade6f7ad9806',
+    name: 'Debora',
+    score: 81,
+  },
+  {
+    id: '90ec69d6-65a3-42da-aa65-ebde041d0bb4',
+    name: 'Jones',
+    score: 103,
+  },
+  {
+    id: 'd6a3e7be-5bb4-4c31-9c51-f2ed2d35dfbc',
+    name: 'Marlene',
+    score: 78,
+  },
+];
+
 const LeaderboardContainer = styled.div`
   height: 100%;
   width; 100%;
@@ -85,20 +138,42 @@ const StyledDataGrid = styled(DataGrid)`
   width: 100%;
 `;
 
-const Leaderboard: FC = () => (
-  <LeaderboardContainer>
-    <StyledAvatar src={Trophy} alt="Trophy" variant="square" />
-    <StyledDataGrid
-      rows={rows}
-      columns={columns}
-      pageSize={10}
-      sortModel={[
-        {
-          field: 'score',
-          sort: 'desc' as GridSortDirection,
-        },
-      ]}
-    />
-  </LeaderboardContainer>
-);
+const Leaderboard: FC = () => {
+  const [detailed, setDetailed] = useState(false);
+
+  const onCellClick = useCallback(() => setDetailed(true), []);
+
+  return (
+    <LeaderboardContainer>
+      <StyledAvatar src={Trophy} alt="Trophy" variant="square" />
+      {detailed ? (
+        <StyledDataGrid
+          rows={employees}
+          columns={employeeColumns}
+          pageSize={10}
+          sortModel={[
+            {
+              field: 'score',
+              sort: 'desc' as GridSortDirection,
+            },
+          ]}
+          onCellClick={onCellClick}
+        />
+      ) : (
+        <StyledDataGrid
+          rows={companies}
+          columns={companyColumns}
+          pageSize={10}
+          sortModel={[
+            {
+              field: 'score',
+              sort: 'desc' as GridSortDirection,
+            },
+          ]}
+          onCellClick={onCellClick}
+        />
+      )}
+    </LeaderboardContainer>
+  );
+};
 export default Leaderboard;
