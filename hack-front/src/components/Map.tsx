@@ -7,8 +7,9 @@ import { Search } from '@material-ui/icons';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import GoogleMapReact, { Coords } from 'google-map-react';
-import { setNotification } from 'models';
-import { useDispatch } from 'react-redux';
+import { setMapCenter, setNotification, setMapZoom } from 'models';
+import { selectCurrentMapPos } from 'models/selectors';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 const MapContainer = styled.div`
@@ -36,6 +37,7 @@ const CurrentLocation: FC<Coords> = () => (
 );
 
 const RecyclingOptions: FC = () => {
+  const dispatch = useDispatch();
   const options = useMemo(
     () => [
       { label: 'Cardboard' },
@@ -50,6 +52,16 @@ const RecyclingOptions: FC = () => {
   const onChange = useCallback((e: ChangeEvent<{}>, value: any) => {
     console.log(value?.label ?? null);
   }, []);
+
+  const onSearch = useCallback(() => {
+    dispatch(
+      setMapCenter({
+        lat: 22.3251,
+        lng: 114.2562,
+      }),
+    );
+    dispatch(setMapZoom(17));
+  }, [dispatch]);
 
   return (
     <RecyclingContainer>
@@ -68,7 +80,7 @@ const RecyclingOptions: FC = () => {
           />
         )}
       />
-      <IconButton style={{ padding: 8 }}>
+      <IconButton style={{ padding: 8 }} onClick={onSearch}>
         <Search />
       </IconButton>
     </RecyclingContainer>
@@ -77,28 +89,24 @@ const RecyclingOptions: FC = () => {
 
 const Map: FC = () => {
   const dispatch = useDispatch();
-  const [mapState, setMapState] = useState({
-    center: {
-      lat: 22.3193,
-      lng: 114.1694,
-    },
-    zoom: 11,
-  });
-  const [center, setCenter] = useState(mapState.center);
-
+  const mapPos = useSelector(selectCurrentMapPos);
+  const [center, setCenter] = useState<Coords>(mapPos.center);
   // eslint-disable-next-line no-undef
-  const positionCallback: PositionCallback = useCallback((position: GeolocationPosition) => {
-    const {
-      coords: { latitude, longitude },
-    } = position;
-    setCenter({ lat: latitude, lng: longitude });
-  }, []);
+  const positionCallback: PositionCallback = useCallback(
+    (position) => {
+      const {
+        coords: { latitude, longitude },
+      } = position;
+      setCenter({ lat: latitude, lng: longitude });
+      dispatch(setMapCenter({ lat: latitude, lng: longitude }));
+    },
+    [dispatch],
+  );
 
   useEffect(() => {
     // Get Current Location
     const getLocation = () => {
       if (navigator.geolocation) {
-        console.log('navigator.geolocation');
         navigator.geolocation.getCurrentPosition(positionCallback, (positionError) => {
           dispatch(
             setNotification({
@@ -123,9 +131,7 @@ const Map: FC = () => {
     <MapContainer>
       <RecyclingOptions />
       <GoogleMapReact
-        defaultCenter={mapState.center}
-        center={center}
-        defaultZoom={mapState.zoom}
+        {...mapPos}
         bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_API_KEY as string }}
         options={{ fullscreenControl: false }}
       >
