@@ -99,7 +99,6 @@ const Map: FC = () => {
   const dispatch = useDispatch();
   const mapPos = useSelector(selectCurrentMapPos);
   const mapMarker = useSelector(selectCurrentMapMarker);
-  console.log({ mapMarker });
   const [center, setCenter] = useState<Coords>(mapPos.center);
   // eslint-disable-next-line no-undef
   const positionCallback: PositionCallback = useCallback(
