@@ -5,7 +5,7 @@ import Webcam from 'react-webcam';
 const videoConstraints = {
   width: 1280,
   height: 720,
-  facingMode: 'user',
+  facingMode: { exact: 'environment' },
 };
 
 const Camera: FC = () => {
@@ -25,6 +25,7 @@ const Camera: FC = () => {
       screenshotFormat="image/jpeg"
       videoConstraints={videoConstraints}
       onUserMediaError={(e) => console.log({ error: e })}
+      style={{ objectFit: 'cover' }}
     />
   );
 };
