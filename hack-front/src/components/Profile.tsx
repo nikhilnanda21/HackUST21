@@ -8,14 +8,15 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 const ProfileContainer = styled.div`
-  height: 100%;
-  width; 100%;
+  height: calc(100% - 32px);
+  width: calc(100% - 32px);
   padding: 16px;
   position: relative;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 `;
 
 const ProgressContainer = styled.div`
