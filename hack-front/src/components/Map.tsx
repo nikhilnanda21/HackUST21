@@ -1,8 +1,9 @@
 import 'styles/Map.css';
 
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { ChangeEvent, FC, useCallback, useEffect, useMemo, useState } from 'react';
 
-import { TextField } from '@material-ui/core';
+import { IconButton, TextField } from '@material-ui/core';
+import { Search } from '@material-ui/icons';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import GoogleMapReact, { Coords } from 'google-map-react';
@@ -16,12 +17,14 @@ const MapContainer = styled.div`
   position: relative;
 `;
 
-const StyledAutocomplete = styled(Autocomplete)`
+const RecyclingContainer = styled.div`
   position: absolute;
   top: 8px;
   left: 8px;
   z-index: 1;
-  background: white;
+  display: flex;
+  width: calc(100% - 16px);
+  justify-content: center;
 `;
 
 const CurrentLocation: FC<Coords> = () => (
@@ -43,15 +46,32 @@ const RecyclingOptions: FC = () => {
     ],
     [],
   );
+
+  const onChange = useCallback((e: ChangeEvent<{}>, value: any) => {
+    console.log(value?.label ?? null);
+  }, []);
+
   return (
-    <StyledAutocomplete
-      options={options}
-      getOptionLabel={(option) => (option as any).label}
-      style={{ width: 300 }}
-      renderInput={(params) => (
-        <TextField {...params} label="Recycling Options" variant="outlined" size="small" />
-      )}
-    />
+    <RecyclingContainer>
+      <Autocomplete
+        options={options}
+        getOptionLabel={(option) => (option as any).label}
+        style={{ width: 300 }}
+        onChange={onChange}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Recycling Options"
+            variant="outlined"
+            size="small"
+            style={{ backgroundColor: 'white', marginRight: 4 }}
+          />
+        )}
+      />
+      <IconButton style={{ padding: 8 }}>
+        <Search />
+      </IconButton>
+    </RecyclingContainer>
   );
 };
 
@@ -107,6 +127,7 @@ const Map: FC = () => {
         center={center}
         defaultZoom={mapState.zoom}
         bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_API_KEY as string }}
+        options={{ fullscreenControl: false }}
       >
         <CurrentLocation {...center} />
       </GoogleMapReact>
