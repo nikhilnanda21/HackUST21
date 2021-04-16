@@ -38,8 +38,32 @@ const CurrentLocation: FC<Coords> = () => (
 
 const MapMarker: FC<Coords> = () => <div className="marker" />;
 
+const LabelCoordMap: Record<string, Coords> = {
+  Cardboard: {
+    lat: 22.3251,
+    lng: 114.2562,
+  },
+  Metal: {
+    lat: 22.2958,
+    lng: 114.26748,
+  },
+  Plastic: {
+    lat: 22.3151,
+    lng: 114.25748,
+  },
+  Glass: {
+    lat: 22.3251,
+    lng: 114.2562,
+  },
+  Trash: {
+    lat: 22.3251,
+    lng: 114.2562,
+  },
+};
+
 const RecyclingOptions: FC = () => {
   const dispatch = useDispatch();
+  const [selected, setSelected] = useState<string | null>(null);
   const options = useMemo(
     () => [
       { label: 'Cardboard' },
@@ -52,24 +76,16 @@ const RecyclingOptions: FC = () => {
   );
 
   const onChange = useCallback((e: ChangeEvent<{}>, value: any) => {
-    console.log(value?.label ?? null);
+    setSelected(value?.label ?? null);
   }, []);
 
   const onSearch = useCallback(() => {
-    dispatch(
-      setMapCenter({
-        lat: 22.3251,
-        lng: 114.2562,
-      }),
-    );
-    dispatch(
-      setMapMarker({
-        lat: 22.3251,
-        lng: 114.2562,
-      }),
-    );
+    if (!selected) return;
+    const coord: Coords = LabelCoordMap[selected as string];
+    dispatch(setMapCenter(coord));
+    dispatch(setMapMarker(coord));
     dispatch(setMapZoom(17));
-  }, [dispatch]);
+  }, [selected, dispatch]);
 
   return (
     <RecyclingContainer>
