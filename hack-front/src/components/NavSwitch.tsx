@@ -5,11 +5,13 @@ import { useSelector } from 'react-redux';
 
 import Camera from './Camera';
 import Map from './Map';
+import Profile from './Profile';
 import ViewContainer from './styled/ViewContainer';
 
 const NavComponentMap: Record<number | 'default', ReactNode> = {
   0: <Map />,
   1: <Camera />,
+  3: <Profile />,
   default: null,
 };
 
