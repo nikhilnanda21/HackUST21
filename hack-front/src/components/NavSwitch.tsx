@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import Camera from './Camera';
 import Leaderboard from './Leaderboard';
 import Map from './Map';
+import Notification from './Notification';
 import Profile from './Profile';
 import ViewContainer from './styled/ViewContainer';
 
@@ -23,6 +24,7 @@ const NavSwitch: FC = () => {
   return (
     <ViewContainer>
       {NavComponentMap?.[currentNav as number] ?? NavComponentMap.default}
+      <Notification />
     </ViewContainer>
   );
 };

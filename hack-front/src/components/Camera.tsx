@@ -1,5 +1,7 @@
-import React, { FC, useLayoutEffect, useRef } from 'react';
+import React, { FC, useCallback, useLayoutEffect, useRef } from 'react';
 
+import { setNotification } from 'models';
+import { useDispatch } from 'react-redux';
 import Webcam from 'react-webcam';
 
 const videoConstraints = {
@@ -9,13 +11,21 @@ const videoConstraints = {
 };
 
 const Camera: FC = () => {
+  const dispatch = useDispatch();
   const camRef = useRef<Webcam>(null);
 
-  useLayoutEffect(() => {
-    if (camRef.current) {
-      const imageSrc = camRef.current.getScreenshot();
-    }
-  }, []);
+  const onUserMediaError = useCallback(
+    (error: string | DOMException) => {
+      dispatch(
+        setNotification({
+          message: (error as DOMException)?.name ?? 'An unknown error has occurred',
+          severity: 'error',
+        }),
+      );
+    },
+    [dispatch],
+  );
+
   return (
     <Webcam
       audio={false}
@@ -24,7 +34,7 @@ const Camera: FC = () => {
       ref={camRef}
       screenshotFormat="image/jpeg"
       videoConstraints={videoConstraints}
-      onUserMediaError={(e) => console.log({ error: e })}
+      onUserMediaError={onUserMediaError}
       style={{ objectFit: 'cover' }}
     />
   );
