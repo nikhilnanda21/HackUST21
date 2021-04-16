@@ -44,16 +44,16 @@ const LabelCoordMap: Record<string, Coords> = {
     lng: 114.2562,
   },
   Metal: {
-    lat: 22.2958,
-    lng: 114.26748,
+    lat: 22.28440853021176,
+    lng: 114.19939409695469,
   },
   Plastic: {
-    lat: 22.3151,
-    lng: 114.25748,
+    lat: 22.26933772631116,
+    lng: 114.17235743008457,
   },
   Glass: {
-    lat: 22.3251,
-    lng: 114.2562,
+    lat: 22.27687333125495,
+    lng: 114.18587576351963,
   },
   Trash: {
     lat: 22.3251,
@@ -157,7 +157,7 @@ const Map: FC = () => {
       <RecyclingOptions />
       <GoogleMapReact
         {...mapPos}
-        bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_API_KEY as string }}
+        bootstrapURLKeys={{ key: 'AIzaSyB1y8QQESa1DdzP6bw_f20uB7aGQ94huz4' }}
         options={{ fullscreenControl: false }}
       >
         <CurrentLocation {...center} />
