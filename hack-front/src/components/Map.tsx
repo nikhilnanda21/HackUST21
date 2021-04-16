@@ -1,6 +1,9 @@
 import 'styles/Map.css';
 
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+
+import { TextField } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import GoogleMapReact, { Coords } from 'google-map-react';
 import { setNotification } from 'models';
@@ -13,6 +16,14 @@ const MapContainer = styled.div`
   position: relative;
 `;
 
+const StyledAutocomplete = styled(Autocomplete)`
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1;
+  background: white;
+`;
+
 const CurrentLocation: FC<Coords> = () => (
   <div className="dot med">
     <span className="point">
@@ -20,6 +31,29 @@ const CurrentLocation: FC<Coords> = () => (
     </span>
   </div>
 );
+
+const RecyclingOptions: FC = () => {
+  const options = useMemo(
+    () => [
+      { label: 'Cardboard' },
+      { label: 'Metal' },
+      { label: 'Plastic' },
+      { label: 'Glass' },
+      { label: 'Trash' },
+    ],
+    [],
+  );
+  return (
+    <StyledAutocomplete
+      options={options}
+      getOptionLabel={(option) => (option as any).label}
+      style={{ width: 300 }}
+      renderInput={(params) => (
+        <TextField {...params} label="Recycling Options" variant="outlined" size="small" />
+      )}
+    />
+  );
+};
 
 const Map: FC = () => {
   const dispatch = useDispatch();
@@ -67,6 +101,7 @@ const Map: FC = () => {
 
   return (
     <MapContainer>
+      <RecyclingOptions />
       <GoogleMapReact
         defaultCenter={mapState.center}
         center={center}
