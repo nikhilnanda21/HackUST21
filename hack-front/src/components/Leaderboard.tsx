@@ -1,3 +1,5 @@
+import Trophy from 'assets/trophy.svg';
+
 import React, { FC } from 'react';
 
 import { DataGrid, GridColDef, GridSortDirection } from '@material-ui/data-grid';
@@ -45,7 +47,7 @@ const StyledDataGrid = styled(DataGrid)`
 
 const Leaderboard: FC = () => (
   <LeaderboardContainer>
-    <StyledAvatar />
+    <StyledAvatar src={Trophy} alt="Trophy" variant="square" />
     <StyledDataGrid
       rows={rows}
       columns={columns}
