@@ -16,7 +16,7 @@ const StyledMuiBottomNav = styled(MuiBottomNav)`
 
 const NavMap: Record<string, ReactNode> = {
   Map: <Map />,
-  Camera: <PhotoCamera />,
+  Detect: <PhotoCamera />,
   Leaderboard: <FormatListNumbered />,
   Profile: <Person />,
 };

@@ -6,7 +6,12 @@ import { DataGrid, GridColDef, GridSortDirection } from '@material-ui/data-grid'
 
 import styled from 'styled-components';
 
-import StyledAvatar from './styled/StyledAvatar';
+import Avatar from './styled/StyledAvatar';
+
+const StyledAvatar = styled(Avatar)`
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+`;
 
 const columns: GridColDef[] = [
   { field: 'name', headerName: 'Name', width: 120 },
