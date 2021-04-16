@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, ReactNode, useCallback, useState } from 'react';
+import React, { ChangeEvent, FC, ReactNode, useCallback } from 'react';
 
 import { BottomNavigation as MuiBottomNav, BottomNavigationAction } from '@material-ui/core';
 import { FormatListNumbered, Map, Person, PhotoCamera } from '@material-ui/icons';
@@ -35,7 +35,7 @@ const BottomNavigation: FC = () => {
   return (
     <StyledMuiBottomNav showLabels onChange={onSelect} value={currentNav}>
       {Object.entries(NavMap).map(([label, icon]) => (
-        <BottomNavigationAction label={label} icon={icon} />
+        <BottomNavigationAction key={`BottomNav-${label}`} label={label} icon={icon} />
       ))}
     </StyledMuiBottomNav>
   );

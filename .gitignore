@@ -1,2 +1,3 @@
 .DS_Store
 hack-front/node_modules/
+hack-front/.env.development
