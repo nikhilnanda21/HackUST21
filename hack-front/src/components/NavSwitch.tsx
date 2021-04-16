@@ -4,6 +4,7 @@ import { selectCurrentNav } from 'models/selectors';
 import { useSelector } from 'react-redux';
 
 import Camera from './Camera';
+import Leaderboard from './Leaderboard';
 import Map from './Map';
 import Profile from './Profile';
 import ViewContainer from './styled/ViewContainer';
@@ -11,6 +12,7 @@ import ViewContainer from './styled/ViewContainer';
 const NavComponentMap: Record<number | 'default', ReactNode> = {
   0: <Map />,
   1: <Camera />,
+  2: <Leaderboard />,
   3: <Profile />,
   default: null,
 };
