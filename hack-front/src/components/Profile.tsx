@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 
-import { Avatar, Card, Chip, LinearProgress, Typography } from '@material-ui/core';
+import { Card, Chip, LinearProgress, Typography } from '@material-ui/core';
 
+import StyledAvatar from 'components/styled/StyledAvatar';
 import { selectCurrentNav } from 'models/selectors';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -15,13 +16,6 @@ const ProfileContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const StyledAvatar = styled(Avatar)`
-  margin-top: 3rem;
-  margin-bottom: 1rem;
-  height: min(40vmin, 100px) !important;
-  width: min(40vmin, 100px) !important;
 `;
 
 const ProgressContainer = styled.div`
@@ -53,8 +47,6 @@ const LevelProgress: FC = () => (
     <LevelIndicator label="LVL 6" variant="outlined" />
   </ProgressContainer>
 );
-
-const EmptyCard: FC = () => null;
 
 const Profile: FC = () => {
   const currentNav = useSelector(selectCurrentNav);

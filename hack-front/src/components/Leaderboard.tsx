@@ -1,6 +1,10 @@
 import React, { FC } from 'react';
 
-import { DataGrid, GridColDef } from '@material-ui/data-grid';
+import { DataGrid, GridColDef, GridSortDirection } from '@material-ui/data-grid';
+
+import styled from 'styled-components';
+
+import StyledAvatar from './styled/StyledAvatar';
 
 const columns: GridColDef[] = [
   { field: 'name', headerName: 'Name', width: 120 },
@@ -25,5 +29,34 @@ const rows = [
   { id: 9, aff: 'Roxie', name: 'Harvey', score: 65 },
 ];
 
-const Leaderboard: FC = () => <DataGrid rows={rows} columns={columns} pageSize={10} />;
+const LeaderboardContainer = styled.div`
+  height: 100%;
+  width; 100%;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const StyledDataGrid = styled(DataGrid)`
+  width: 100%;
+`;
+
+const Leaderboard: FC = () => (
+  <LeaderboardContainer>
+    <StyledAvatar />
+    <StyledDataGrid
+      rows={rows}
+      columns={columns}
+      pageSize={10}
+      sortModel={[
+        {
+          field: 'score',
+          sort: 'desc' as GridSortDirection,
+        },
+      ]}
+    />
+  </LeaderboardContainer>
+);
 export default Leaderboard;
