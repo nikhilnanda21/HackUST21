@@ -11,6 +11,7 @@ const initialState = {
     lng: 114.1694,
   } as Coords,
   zoom: 11,
+  marker: null as Coords | null,
 };
 
 const reduxSlice = createSlice({
@@ -29,9 +30,18 @@ const reduxSlice = createSlice({
     setMapZoom(state, action: PayloadAction<number>) {
       state.zoom = action.payload;
     },
+    setMapMarker(state, action: PayloadAction<Coords>) {
+      state.marker = action.payload;
+    },
   },
 });
 
-export const { setNavigation, setNotification, setMapCenter, setMapZoom } = reduxSlice.actions;
+export const {
+  setNavigation,
+  setNotification,
+  setMapCenter,
+  setMapZoom,
+  setMapMarker,
+} = reduxSlice.actions;
 
 export default reduxSlice.reducer;

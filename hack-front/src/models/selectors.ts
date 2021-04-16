@@ -11,3 +11,5 @@ export const selectCurrentMapPos = (state: ReduxState) => ({
     lng: state.center?.lng,
   },
 });
+
+export const selectCurrentMapMarker = (state: ReduxState) => state.marker;

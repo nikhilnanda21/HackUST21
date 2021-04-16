@@ -7,8 +7,8 @@ import { Search } from '@material-ui/icons';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import GoogleMapReact, { Coords } from 'google-map-react';
-import { setMapCenter, setNotification, setMapZoom } from 'models';
-import { selectCurrentMapPos } from 'models/selectors';
+import { setMapCenter, setNotification, setMapZoom, setMapMarker } from 'models';
+import { selectCurrentMapMarker, selectCurrentMapPos } from 'models/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
@@ -36,6 +36,8 @@ const CurrentLocation: FC<Coords> = () => (
   </div>
 );
 
+const MapMarker: FC<Coords> = () => <div className="marker" />;
+
 const RecyclingOptions: FC = () => {
   const dispatch = useDispatch();
   const options = useMemo(
@@ -56,6 +58,12 @@ const RecyclingOptions: FC = () => {
   const onSearch = useCallback(() => {
     dispatch(
       setMapCenter({
+        lat: 22.3251,
+        lng: 114.2562,
+      }),
+    );
+    dispatch(
+      setMapMarker({
         lat: 22.3251,
         lng: 114.2562,
       }),
@@ -90,6 +98,8 @@ const RecyclingOptions: FC = () => {
 const Map: FC = () => {
   const dispatch = useDispatch();
   const mapPos = useSelector(selectCurrentMapPos);
+  const mapMarker = useSelector(selectCurrentMapMarker);
+  console.log({ mapMarker });
   const [center, setCenter] = useState<Coords>(mapPos.center);
   // eslint-disable-next-line no-undef
   const positionCallback: PositionCallback = useCallback(
@@ -136,6 +146,7 @@ const Map: FC = () => {
         options={{ fullscreenControl: false }}
       >
         <CurrentLocation {...center} />
+        {mapMarker && <MapMarker {...mapMarker} />}
       </GoogleMapReact>
     </MapContainer>
   );

@@ -230,3 +230,22 @@
   -webkit-box-shadow: #60c9e9 2px 2px 40px 0px;
   box-shadow: #60c9e9 2px 2px 40px 0px;
 }
+
+.marker {
+  position: absolute;
+  border-radius: 50%;
+  border: 8px solid #f0462e;
+  width: 8px;
+  height: 8px;
+}
+
+.marker::after {
+  position: absolute;
+  content: '';
+  width: 0px;
+  height: 0px;
+  bottom: -30px;
+  left: -6px;
+  border: 10px solid transparent;
+  border-top: 17px solid #f0462e;
+}
